@@ -1,0 +1,35 @@
+package main
+
+import (
+	"context"
+	"hermes/internal/app"
+	"hermes/internal/pkg/logger"
+	"log"
+)
+
+func main() {
+	log.Println("Starting hermes")
+	ctx, cancel := context.WithCancel(context.Background())
+	defer func() {
+		cancel()
+	}()
+
+	log.Println("Initializing App")
+	application, err := app.NewApp("config.json")
+	if err != nil {
+		panic(err)
+	}
+
+	logger.Infoln("Creating servers")
+	servers, err := application.NewServers()
+	if err != nil {
+		panic(err)
+	}
+
+	logger.Infoln("Starting servers")
+	if err := servers.Start(); err != nil {
+		panic(err)
+	}
+
+	<-ctx.Done()
+}
