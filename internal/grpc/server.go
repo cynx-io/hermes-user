@@ -11,7 +11,7 @@ import (
 )
 
 type Server struct {
-	pb.UnimplementedUserServiceServer
+	pb.UnimplementedHermesUserServiceServer
 	userService *usermodule.UserService
 }
 
@@ -28,7 +28,7 @@ func (s *Server) Start(address string) error {
 	}
 
 	server := grpc.NewServer()
-	pb.RegisterUserServiceServer(server, s)
+	pb.RegisterHermesUserServiceServer(server, s)
 	reflection.Register(server)
 
 	logger.Infof("Starting gRPC server on %s", address)
@@ -36,17 +36,26 @@ func (s *Server) Start(address string) error {
 }
 
 func (s *Server) CheckUsername(ctx context.Context, req *pb.CheckUsernameRequest) (*pb.CheckUsernameResponse, error) {
-	return s.userService.CheckUsername(ctx, req.Username)
+	resp, err := s.userService.CheckUsername(ctx, req.Username)
+	return serviceWrapper(resp, err)
 }
 
 func (s *Server) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.GetUserResponse, error) {
-	return s.userService.GetUser(ctx, req.Username)
+	resp, err := s.userService.GetUser(ctx, req.Username)
+	return serviceWrapper(resp, err)
 }
 
 func (s *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
-	return s.userService.CreateUser(ctx, req.Username, req.Password)
+	resp, err := s.userService.CreateUser(ctx, req.Username, req.Password)
+	return serviceWrapper(resp, err)
 }
 
 func (s *Server) PaginateUsers(ctx context.Context, req *pb.PaginateRequest) (*pb.PaginateUsersResponse, error) {
-	return s.userService.PaginateUsers(ctx, req)
+	resp, err := s.userService.PaginateUsers(ctx, req)
+	return serviceWrapper(resp, err)
+}
+
+func (s *Server) ValidatePassword(ctx context.Context, req *pb.ValidatePasswordRequest) (*pb.ValidatePasswordResponse, error) {
+	resp, err := s.userService.ValidatePassword(ctx, req.Username, req.Password)
+	return serviceWrapper(resp, err)
 }

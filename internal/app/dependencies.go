@@ -22,7 +22,7 @@ func NewDependencies(configPath string) *Dependencies {
 	}
 
 	log.Println("Initializing Logger")
-	logger.InitLogger(&config.Log)
+	logger.InitLogger()
 
 	logger.Infoln("Initializing Validator")
 	pkg.InitValidator()

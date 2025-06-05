@@ -7,7 +7,7 @@ option go_package = "hermes/api/proto/user";
 import "google/protobuf/timestamp.proto";
 
 // User service definition
-service UserService {
+service HermesUserService {
   // Check if a username exists
   rpc CheckUsername(CheckUsernameRequest) returns (CheckUsernameResponse) {}
   
@@ -19,6 +19,8 @@ service UserService {
   
   // Paginate users
   rpc PaginateUsers(PaginateRequest) returns (PaginateUsersResponse) {}
+
+  rpc ValidatePassword(ValidatePasswordRequest) returns (ValidatePasswordResponse) {}
 }
 
 message BaseResponse {
@@ -44,6 +46,18 @@ message GetUserRequest {
 
 // Response message for getting user
 message GetUserResponse {
+  BaseResponse base = 1;
+  UserData user = 2;
+}
+
+// Request message for getting user
+message ValidatePasswordRequest {
+  string username = 1;
+  string password = 2;
+}
+
+// Response message for getting user
+message ValidatePasswordResponse {
   BaseResponse base = 1;
   UserData user = 2;
 }

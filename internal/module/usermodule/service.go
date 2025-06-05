@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"golang.org/x/crypto/bcrypt"
-	"google.golang.org/protobuf/types/known/timestamppb"
 	pb "hermes/api/proto/user"
 	"hermes/internal/constant"
 	"hermes/internal/model/entity"
@@ -15,9 +14,9 @@ import (
 
 const (
 	ResponseCodeSuccess    = "00"
-	ResponseCodeDBError    = "DBU"
-	ResponseCodeNotFound   = "NFU"
-	ResponseCodeValidation = "VDU"
+	ResponseCodeDBError    = "DB"
+	ResponseCodeNotFound   = "NF"
+	ResponseCodeValidation = "VD"
 )
 
 type UserService struct {
@@ -74,13 +73,7 @@ func (service *UserService) GetUser(ctx context.Context, username string) (*pb.G
 			Code: ResponseCodeSuccess,
 			Desc: "Success",
 		},
-		User: &pb.UserData{
-			Id:          int32(user.Id),
-			Username:    user.Username,
-			Coin:        int32(user.Coin),
-			CreatedDate: timestamppb.New(user.CreatedDate),
-			UpdatedDate: timestamppb.New(user.UpdatedDate),
-		},
+		User: user.ToUserResponse(),
 	}, nil
 }
 
@@ -148,13 +141,7 @@ func (service *UserService) CreateUser(ctx context.Context, username, password s
 			Code: ResponseCodeSuccess,
 			Desc: "Success",
 		},
-		User: &pb.UserData{
-			Id:          int32(createdUser.Id),
-			Username:    createdUser.Username,
-			Coin:        int32(createdUser.Coin),
-			CreatedDate: timestamppb.New(createdUser.CreatedDate),
-			UpdatedDate: timestamppb.New(createdUser.UpdatedDate),
-		},
+		User: createdUser.ToUserResponse(),
 	}, nil
 }
 
@@ -180,13 +167,7 @@ func (service *UserService) PaginateUsers(ctx context.Context, req *pb.PaginateR
 
 	usersResponse := make([]*pb.UserData, len(users))
 	for i, user := range users {
-		usersResponse[i] = &pb.UserData{
-			Id:          int32(user.Id),
-			Username:    user.Username,
-			Coin:        int32(user.Coin),
-			CreatedDate: timestamppb.New(user.CreatedDate),
-			UpdatedDate: timestamppb.New(user.UpdatedDate),
-		}
+		usersResponse[i] = user.ToUserResponse()
 	}
 
 	totalPages := int32(math.Ceil(float64(total) / float64(req.Limit)))
@@ -202,4 +183,45 @@ func (service *UserService) PaginateUsers(ctx context.Context, req *pb.PaginateR
 		Limit:      req.Limit,
 		TotalPages: totalPages,
 	}, nil
+}
+
+func (service *UserService) ValidatePassword(ctx context.Context, username string, password string) (*pb.ValidatePasswordResponse, error) {
+
+	// Get user by username
+	user, err := service.tblUser.GetUser(ctx, "username", username)
+	if err != nil {
+		if errors.Is(err, constant.ErrDatabaseNotFound) {
+			return &pb.ValidatePasswordResponse{
+				Base: &pb.BaseResponse{
+					Code: ResponseCodeNotFound,
+					Desc: "User not found",
+				},
+			}, err
+		}
+		return &pb.ValidatePasswordResponse{
+			Base: &pb.BaseResponse{
+				Code: ResponseCodeDBError,
+				Desc: "Database error while getting user",
+			},
+		}, err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return &pb.ValidatePasswordResponse{
+			Base: &pb.BaseResponse{
+				Code: ResponseCodeValidation,
+				Desc: "Invalid password",
+			},
+		}, err
+	}
+
+	return &pb.ValidatePasswordResponse{
+		Base: &pb.BaseResponse{
+			Code: ResponseCodeSuccess,
+			Desc: "Password is valid",
+		},
+		User: user.ToUserResponse(),
+	}, nil
+
 }

@@ -19,8 +19,8 @@ func NewTblUser(DB *gorm.DB) *TblUser {
 	}
 }
 
-func (database *TblUser) InsertUser(ctx context.Context, user entity.TblUser) (int, error) {
-	err := database.DB.WithContext(ctx).Create(&user).Error
+func (db *TblUser) InsertUser(ctx context.Context, user entity.TblUser) (int, error) {
+	err := db.DB.WithContext(ctx).Create(&user).Error
 	if err != nil {
 		return 0, err
 	}
@@ -28,9 +28,9 @@ func (database *TblUser) InsertUser(ctx context.Context, user entity.TblUser) (i
 	return user.Id, nil
 }
 
-func (database *TblUser) CheckUserExists(ctx context.Context, key string, value string) (bool, error) {
+func (db *TblUser) CheckUserExists(ctx context.Context, key string, value string) (bool, error) {
 	var count int64
-	err := database.DB.WithContext(ctx).Model(&entity.TblUser{}).Where(key+" = ?", value).Count(&count).Error
+	err := db.DB.WithContext(ctx).Model(&entity.TblUser{}).Where(key+" = ?", value).Count(&count).Error
 	if err != nil {
 		return false, err
 	}
@@ -38,9 +38,9 @@ func (database *TblUser) CheckUserExists(ctx context.Context, key string, value 
 	return count > 0, nil
 }
 
-func (database *TblUser) GetUser(ctx context.Context, key string, value string) (*entity.TblUser, error) {
+func (db *TblUser) GetUser(ctx context.Context, key string, value string) (*entity.TblUser, error) {
 	var user entity.TblUser
-	err := database.DB.WithContext(ctx).Where(key+" = ?", value).First(&user).Error
+	err := db.DB.WithContext(ctx).Where(key+" = ?", value).First(&user).Error
 	if err != nil {
 		return &user, err
 	}
@@ -48,17 +48,17 @@ func (database *TblUser) GetUser(ctx context.Context, key string, value string) 
 	return &user, nil
 }
 
-func (tbl *TblUser) PaginateUser(ctx context.Context, req *pb.PaginateRequest) ([]entity.TblUser, int64, error) {
+func (db *TblUser) PaginateUser(ctx context.Context, req *pb.PaginateRequest) ([]entity.TblUser, int64, error) {
 	var users []entity.TblUser
 	var total int64
 
 	// Get total count
-	if err := tbl.DB.Model(&entity.TblUser{}).Count(&total).Error; err != nil {
+	if err := db.DB.Model(&entity.TblUser{}).Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
 
 	// Build query
-	query := tbl.DB.Model(&entity.TblUser{})
+	query := db.DB.Model(&entity.TblUser{})
 
 	// Apply sorting
 	if req.SortBy != "" {

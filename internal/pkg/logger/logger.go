@@ -3,14 +3,13 @@ package logger
 import (
 	"github.com/sirupsen/logrus"
 	"go.elastic.co/ecslogrus"
-	"hermes/internal/dependencies"
 )
 
 var (
 	l *logrus.Logger
 )
 
-func InitLogger(config *dependencies.LogConfig) {
+func InitLogger() {
 	l = logrus.New()
 	l.SetFormatter(&ecslogrus.Formatter{})
 	l.SetLevel(logrus.InfoLevel)

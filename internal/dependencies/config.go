@@ -9,10 +9,6 @@ import (
 )
 
 type Config struct {
-	Router struct {
-		Default string `mapstructure:"default"`
-	} `mapstructure:"router"`
-	Log LogConfig `mapstructure:"log"`
 	App struct {
 		Name    string `mapstructure:"name"`
 		Address string `mapstructure:"address"`
@@ -21,10 +17,6 @@ type Config struct {
 		Debug   bool   `mapstructure:"debug"`
 	} `mapstructure:"app"`
 	Database DatabaseConfig `mapstructure:"database"`
-}
-
-type LogConfig struct {
-	Destination string `mapstructure:"destination"`
 }
 
 type DatabaseConfig struct {

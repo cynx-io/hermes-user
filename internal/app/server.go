@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"golang.org/x/sync/errgroup"
+	"hermes/internal/dependencies"
 	"hermes/internal/grpc"
 	"hermes/internal/pkg/logger"
 	"strconv"
@@ -11,6 +12,7 @@ import (
 
 type Servers struct {
 	grpcServer *grpc.Server
+	config     *dependencies.Config
 }
 
 func (app *App) NewServers() (*Servers, error) {
@@ -19,11 +21,9 @@ func (app *App) NewServers() (*Servers, error) {
 	// Create gRPC server
 	grpcServer := grpc.NewServer(app.Services.UserService)
 
-	address := config.App.Address + ":" + strconv.Itoa(config.App.Port)
-	logger.Infof("Starting gRPC server on %s", address)
-
 	return &Servers{
 		grpcServer: grpcServer,
+		config:     config,
 	}, nil
 }
 
@@ -32,7 +32,8 @@ func (s *Servers) Start() error {
 
 	g.Go(func() error {
 		logger.Infoln("Starting gRPC server")
-		if err := s.grpcServer.Start(":5000"); err != nil {
+		address := s.config.App.Address + ":" + strconv.Itoa(s.config.App.Port)
+		if err := s.grpcServer.Start(address); err != nil {
 			return fmt.Errorf("failed to start gRPC server: %w", err)
 		}
 		return nil

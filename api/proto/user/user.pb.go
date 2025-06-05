@@ -270,6 +270,112 @@ func (x *GetUserResponse) GetUser() *UserData {
 	return nil
 }
 
+// Request message for getting user
+type ValidatePasswordRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidatePasswordRequest) Reset() {
+	*x = ValidatePasswordRequest{}
+	mi := &file_api_proto_user_user_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidatePasswordRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidatePasswordRequest) ProtoMessage() {}
+
+func (x *ValidatePasswordRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_user_user_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidatePasswordRequest.ProtoReflect.Descriptor instead.
+func (*ValidatePasswordRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_user_user_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ValidatePasswordRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *ValidatePasswordRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+// Response message for getting user
+type ValidatePasswordResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Base          *BaseResponse          `protobuf:"bytes,1,opt,name=base,proto3" json:"base,omitempty"`
+	User          *UserData              `protobuf:"bytes,2,opt,name=user,proto3" json:"user,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidatePasswordResponse) Reset() {
+	*x = ValidatePasswordResponse{}
+	mi := &file_api_proto_user_user_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidatePasswordResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidatePasswordResponse) ProtoMessage() {}
+
+func (x *ValidatePasswordResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_user_user_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidatePasswordResponse.ProtoReflect.Descriptor instead.
+func (*ValidatePasswordResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_user_user_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ValidatePasswordResponse) GetBase() *BaseResponse {
+	if x != nil {
+		return x.Base
+	}
+	return nil
+}
+
+func (x *ValidatePasswordResponse) GetUser() *UserData {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
 // Request message for creating user
 type CreateUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -281,7 +387,7 @@ type CreateUserRequest struct {
 
 func (x *CreateUserRequest) Reset() {
 	*x = CreateUserRequest{}
-	mi := &file_api_proto_user_user_proto_msgTypes[5]
+	mi := &file_api_proto_user_user_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -293,7 +399,7 @@ func (x *CreateUserRequest) String() string {
 func (*CreateUserRequest) ProtoMessage() {}
 
 func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_user_user_proto_msgTypes[5]
+	mi := &file_api_proto_user_user_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -306,7 +412,7 @@ func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
 func (*CreateUserRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_user_user_proto_rawDescGZIP(), []int{5}
+	return file_api_proto_user_user_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *CreateUserRequest) GetUsername() string {
@@ -334,7 +440,7 @@ type CreateUserResponse struct {
 
 func (x *CreateUserResponse) Reset() {
 	*x = CreateUserResponse{}
-	mi := &file_api_proto_user_user_proto_msgTypes[6]
+	mi := &file_api_proto_user_user_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -346,7 +452,7 @@ func (x *CreateUserResponse) String() string {
 func (*CreateUserResponse) ProtoMessage() {}
 
 func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_user_user_proto_msgTypes[6]
+	mi := &file_api_proto_user_user_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -359,7 +465,7 @@ func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserResponse.ProtoReflect.Descriptor instead.
 func (*CreateUserResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_user_user_proto_rawDescGZIP(), []int{6}
+	return file_api_proto_user_user_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *CreateUserResponse) GetBase() *BaseResponse {
@@ -389,7 +495,7 @@ type PaginateRequest struct {
 
 func (x *PaginateRequest) Reset() {
 	*x = PaginateRequest{}
-	mi := &file_api_proto_user_user_proto_msgTypes[7]
+	mi := &file_api_proto_user_user_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -401,7 +507,7 @@ func (x *PaginateRequest) String() string {
 func (*PaginateRequest) ProtoMessage() {}
 
 func (x *PaginateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_user_user_proto_msgTypes[7]
+	mi := &file_api_proto_user_user_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -414,7 +520,7 @@ func (x *PaginateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PaginateRequest.ProtoReflect.Descriptor instead.
 func (*PaginateRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_user_user_proto_rawDescGZIP(), []int{7}
+	return file_api_proto_user_user_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *PaginateRequest) GetPage() int32 {
@@ -460,7 +566,7 @@ type PaginateUsersResponse struct {
 
 func (x *PaginateUsersResponse) Reset() {
 	*x = PaginateUsersResponse{}
-	mi := &file_api_proto_user_user_proto_msgTypes[8]
+	mi := &file_api_proto_user_user_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -472,7 +578,7 @@ func (x *PaginateUsersResponse) String() string {
 func (*PaginateUsersResponse) ProtoMessage() {}
 
 func (x *PaginateUsersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_user_user_proto_msgTypes[8]
+	mi := &file_api_proto_user_user_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -485,7 +591,7 @@ func (x *PaginateUsersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PaginateUsersResponse.ProtoReflect.Descriptor instead.
 func (*PaginateUsersResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_user_user_proto_rawDescGZIP(), []int{8}
+	return file_api_proto_user_user_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *PaginateUsersResponse) GetBase() *BaseResponse {
@@ -544,7 +650,7 @@ type UserData struct {
 
 func (x *UserData) Reset() {
 	*x = UserData{}
-	mi := &file_api_proto_user_user_proto_msgTypes[9]
+	mi := &file_api_proto_user_user_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -556,7 +662,7 @@ func (x *UserData) String() string {
 func (*UserData) ProtoMessage() {}
 
 func (x *UserData) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_user_user_proto_msgTypes[9]
+	mi := &file_api_proto_user_user_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -569,7 +675,7 @@ func (x *UserData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserData.ProtoReflect.Descriptor instead.
 func (*UserData) Descriptor() ([]byte, []int) {
-	return file_api_proto_user_user_proto_rawDescGZIP(), []int{9}
+	return file_api_proto_user_user_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *UserData) GetId() int32 {
@@ -624,6 +730,12 @@ const file_api_proto_user_user_proto_rawDesc = "" +
 	"\busername\x18\x01 \x01(\tR\busername\"]\n" +
 	"\x0fGetUserResponse\x12&\n" +
 	"\x04base\x18\x01 \x01(\v2\x12.user.BaseResponseR\x04base\x12\"\n" +
+	"\x04user\x18\x02 \x01(\v2\x0e.user.UserDataR\x04user\"Q\n" +
+	"\x17ValidatePasswordRequest\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"f\n" +
+	"\x18ValidatePasswordResponse\x12&\n" +
+	"\x04base\x18\x01 \x01(\v2\x12.user.BaseResponseR\x04base\x12\"\n" +
 	"\x04user\x18\x02 \x01(\v2\x0e.user.UserDataR\x04user\"K\n" +
 	"\x11CreateUserRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
@@ -650,13 +762,14 @@ const file_api_proto_user_user_proto_rawDesc = "" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x12\n" +
 	"\x04coin\x18\x03 \x01(\x05R\x04coin\x12=\n" +
 	"\fcreated_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedDate\x12=\n" +
-	"\fupdated_date\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\vupdatedDate2\x9d\x02\n" +
-	"\vUserService\x12J\n" +
+	"\fupdated_date\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\vupdatedDate2\xf8\x02\n" +
+	"\x11HermesUserService\x12J\n" +
 	"\rCheckUsername\x12\x1a.user.CheckUsernameRequest\x1a\x1b.user.CheckUsernameResponse\"\x00\x128\n" +
 	"\aGetUser\x12\x14.user.GetUserRequest\x1a\x15.user.GetUserResponse\"\x00\x12A\n" +
 	"\n" +
 	"CreateUser\x12\x17.user.CreateUserRequest\x1a\x18.user.CreateUserResponse\"\x00\x12E\n" +
-	"\rPaginateUsers\x12\x15.user.PaginateRequest\x1a\x1b.user.PaginateUsersResponse\"\x00B\x17Z\x15hermes/api/proto/userb\x06proto3"
+	"\rPaginateUsers\x12\x15.user.PaginateRequest\x1a\x1b.user.PaginateUsersResponse\"\x00\x12S\n" +
+	"\x10ValidatePassword\x12\x1d.user.ValidatePasswordRequest\x1a\x1e.user.ValidatePasswordResponse\"\x00B\x17Z\x15hermes/api/proto/userb\x06proto3"
 
 var (
 	file_api_proto_user_user_proto_rawDescOnce sync.Once
@@ -670,43 +783,49 @@ func file_api_proto_user_user_proto_rawDescGZIP() []byte {
 	return file_api_proto_user_user_proto_rawDescData
 }
 
-var file_api_proto_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_api_proto_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_api_proto_user_user_proto_goTypes = []any{
-	(*BaseResponse)(nil),          // 0: user.BaseResponse
-	(*CheckUsernameRequest)(nil),  // 1: user.CheckUsernameRequest
-	(*CheckUsernameResponse)(nil), // 2: user.CheckUsernameResponse
-	(*GetUserRequest)(nil),        // 3: user.GetUserRequest
-	(*GetUserResponse)(nil),       // 4: user.GetUserResponse
-	(*CreateUserRequest)(nil),     // 5: user.CreateUserRequest
-	(*CreateUserResponse)(nil),    // 6: user.CreateUserResponse
-	(*PaginateRequest)(nil),       // 7: user.PaginateRequest
-	(*PaginateUsersResponse)(nil), // 8: user.PaginateUsersResponse
-	(*UserData)(nil),              // 9: user.UserData
-	(*timestamp.Timestamp)(nil),   // 10: google.protobuf.Timestamp
+	(*BaseResponse)(nil),             // 0: user.BaseResponse
+	(*CheckUsernameRequest)(nil),     // 1: user.CheckUsernameRequest
+	(*CheckUsernameResponse)(nil),    // 2: user.CheckUsernameResponse
+	(*GetUserRequest)(nil),           // 3: user.GetUserRequest
+	(*GetUserResponse)(nil),          // 4: user.GetUserResponse
+	(*ValidatePasswordRequest)(nil),  // 5: user.ValidatePasswordRequest
+	(*ValidatePasswordResponse)(nil), // 6: user.ValidatePasswordResponse
+	(*CreateUserRequest)(nil),        // 7: user.CreateUserRequest
+	(*CreateUserResponse)(nil),       // 8: user.CreateUserResponse
+	(*PaginateRequest)(nil),          // 9: user.PaginateRequest
+	(*PaginateUsersResponse)(nil),    // 10: user.PaginateUsersResponse
+	(*UserData)(nil),                 // 11: user.UserData
+	(*timestamp.Timestamp)(nil),      // 12: google.protobuf.Timestamp
 }
 var file_api_proto_user_user_proto_depIdxs = []int32{
 	0,  // 0: user.CheckUsernameResponse.base:type_name -> user.BaseResponse
 	0,  // 1: user.GetUserResponse.base:type_name -> user.BaseResponse
-	9,  // 2: user.GetUserResponse.user:type_name -> user.UserData
-	0,  // 3: user.CreateUserResponse.base:type_name -> user.BaseResponse
-	9,  // 4: user.CreateUserResponse.user:type_name -> user.UserData
-	0,  // 5: user.PaginateUsersResponse.base:type_name -> user.BaseResponse
-	9,  // 6: user.PaginateUsersResponse.users:type_name -> user.UserData
-	10, // 7: user.UserData.created_date:type_name -> google.protobuf.Timestamp
-	10, // 8: user.UserData.updated_date:type_name -> google.protobuf.Timestamp
-	1,  // 9: user.UserService.CheckUsername:input_type -> user.CheckUsernameRequest
-	3,  // 10: user.UserService.GetUser:input_type -> user.GetUserRequest
-	5,  // 11: user.UserService.CreateUser:input_type -> user.CreateUserRequest
-	7,  // 12: user.UserService.PaginateUsers:input_type -> user.PaginateRequest
-	2,  // 13: user.UserService.CheckUsername:output_type -> user.CheckUsernameResponse
-	4,  // 14: user.UserService.GetUser:output_type -> user.GetUserResponse
-	6,  // 15: user.UserService.CreateUser:output_type -> user.CreateUserResponse
-	8,  // 16: user.UserService.PaginateUsers:output_type -> user.PaginateUsersResponse
-	13, // [13:17] is the sub-list for method output_type
-	9,  // [9:13] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	11, // 2: user.GetUserResponse.user:type_name -> user.UserData
+	0,  // 3: user.ValidatePasswordResponse.base:type_name -> user.BaseResponse
+	11, // 4: user.ValidatePasswordResponse.user:type_name -> user.UserData
+	0,  // 5: user.CreateUserResponse.base:type_name -> user.BaseResponse
+	11, // 6: user.CreateUserResponse.user:type_name -> user.UserData
+	0,  // 7: user.PaginateUsersResponse.base:type_name -> user.BaseResponse
+	11, // 8: user.PaginateUsersResponse.users:type_name -> user.UserData
+	12, // 9: user.UserData.created_date:type_name -> google.protobuf.Timestamp
+	12, // 10: user.UserData.updated_date:type_name -> google.protobuf.Timestamp
+	1,  // 11: user.HermesUserService.CheckUsername:input_type -> user.CheckUsernameRequest
+	3,  // 12: user.HermesUserService.GetUser:input_type -> user.GetUserRequest
+	7,  // 13: user.HermesUserService.CreateUser:input_type -> user.CreateUserRequest
+	9,  // 14: user.HermesUserService.PaginateUsers:input_type -> user.PaginateRequest
+	5,  // 15: user.HermesUserService.ValidatePassword:input_type -> user.ValidatePasswordRequest
+	2,  // 16: user.HermesUserService.CheckUsername:output_type -> user.CheckUsernameResponse
+	4,  // 17: user.HermesUserService.GetUser:output_type -> user.GetUserResponse
+	8,  // 18: user.HermesUserService.CreateUser:output_type -> user.CreateUserResponse
+	10, // 19: user.HermesUserService.PaginateUsers:output_type -> user.PaginateUsersResponse
+	6,  // 20: user.HermesUserService.ValidatePassword:output_type -> user.ValidatePasswordResponse
+	16, // [16:21] is the sub-list for method output_type
+	11, // [11:16] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_api_proto_user_user_proto_init() }
@@ -720,7 +839,7 @@ func file_api_proto_user_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_user_user_proto_rawDesc), len(file_api_proto_user_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
