@@ -9,6 +9,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.20.1
 	go.elastic.co/ecslogrus v1.0.0
+	golang.org/x/crypto v0.38.0
 	golang.org/x/sync v0.14.0
 	google.golang.org/grpc v1.67.3
 	google.golang.org/protobuf v1.36.1
@@ -38,7 +39,6 @@ require (
 	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/crypto v0.38.0 // indirect
 	golang.org/x/net v0.40.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.25.0 // indirect

@@ -5,7 +5,7 @@ type ResponseCode string
 const (
 
 	// Expected Error
-	CodeSuccess             ResponseCode = "SU"
+	CodeSuccess             ResponseCode = "00"
 	CodeValidationError     ResponseCode = "VE"
 	CodeAuthenticationError ResponseCode = "AU"
 	CodeNotAllowed          ResponseCode = "NA"
@@ -14,7 +14,7 @@ const (
 
 	// Internal
 	CodeJwtError      ResponseCode = "JWTERR"
-	CodeInternalError ResponseCode = "IE"
+	CodeInternalError ResponseCode = "I-IE"
 
 	// DB Error
 	CodeTblUserError ResponseCode = "TBLUSR"
