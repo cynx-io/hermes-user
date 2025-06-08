@@ -9,7 +9,7 @@
   "database": {
     "host": "devspace",
     "port": 3306,
-    "database": "db_dionysus",
+    "database": "db_hermes",
     "username": "cynx",
     "password": "pass",
     "dialect": "mysql",
