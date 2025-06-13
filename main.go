@@ -20,13 +20,13 @@ func main() {
 		panic(err)
 	}
 
-	logger.Infoln("Creating servers")
+	logger.Info("Creating servers")
 	servers, err := application.NewServers()
 	if err != nil {
 		panic(err)
 	}
 
-	logger.Infoln("Starting servers")
+	logger.Info("Starting servers")
 	if err := servers.Start(); err != nil {
 		panic(err)
 	}

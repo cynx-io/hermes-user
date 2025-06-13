@@ -7,13 +7,13 @@
     "key": "sashimi"
   },
   "database": {
-    "host": "devspace",
-    "port": 3306,
+    "host": "152.53.169.236",
+    "port": 31320,
     "database": "db_hermes",
     "username": "cynx",
-    "password": "pass",
+    "password": "derwin334",
     "dialect": "mysql",
-    "autoMigrate": false,
+    "autoMigrate": true,
     "pool": {
       "max": 5,
       "min": 0,

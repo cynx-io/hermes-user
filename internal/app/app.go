@@ -17,20 +17,20 @@ func NewApp(configPath string) (*App, error) {
 	dependencies := NewDependencies(configPath)
 
 	if dependencies.Config.Database.AutoMigrate {
-		logger.Infoln("Running database migrations")
+		logger.Info("Running database migrations")
 		err := dependencies.DatabaseClient.RunMigrations()
 		if err != nil {
-			logger.Fatalln("Failed to run migrations: ", err)
+			logger.Fatal("Failed to run migrations: ", err)
 		}
 	}
 
-	logger.Infoln("Initializing Repositories")
+	logger.Info("Initializing Repositories")
 	repos := NewRepos(dependencies)
 
-	logger.Infoln("Initializing Services")
+	logger.Info("Initializing Services")
 	services := NewServices(repos, dependencies)
 
-	logger.Infoln("App initialized")
+	logger.Info("App initialized")
 	return &App{
 		Dependencies: dependencies,
 		Repos:        repos,

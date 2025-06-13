@@ -19,6 +19,7 @@ install_deps:
     # curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.1.6
 	go install golang.org/x/tools/go/analysis/passes/fieldalignment/cmd/fieldalignment@latest
 	go install github.com/google/wire/cmd/wire@latest
+	go get github.com/joho/godotenv
 	go get -u gorm.io/gorm
 	go get -u gorm.io/driver/sqlite
 
@@ -52,4 +53,7 @@ clean:
 .PHONY: all
 all: clean proto build
 
-
+build_docker_dev:
+	docker build -t hermes-user-dev:latest .
+	docker tag hermes-user-dev:latest derwin334/hermes-user-dev:latest
+	docker push derwin334/hermes-user-dev:latest

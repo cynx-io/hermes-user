@@ -31,7 +31,7 @@ func (s *Servers) Start() error {
 	var g errgroup.Group
 
 	g.Go(func() error {
-		logger.Infoln("Starting gRPC server")
+		logger.Info("Starting gRPC server")
 		address := s.config.App.Address + ":" + strconv.Itoa(s.config.App.Port)
 		if err := s.grpcServer.Start(address); err != nil {
 			return fmt.Errorf("failed to start gRPC server: %w", err)

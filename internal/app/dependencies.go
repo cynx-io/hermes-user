@@ -24,16 +24,16 @@ func NewDependencies(configPath string) *Dependencies {
 	log.Println("Initializing Logger")
 	logger.InitLogger()
 
-	logger.Infoln("Initializing Validator")
+	logger.Info("Initializing Validator")
 	pkg.InitValidator()
 
-	logger.Infoln("Connecting to Database")
+	logger.Info("Connecting to Database")
 	databaseClient, err := dependencies.NewDatabaseClient(config)
 	if err != nil {
-		logger.Fatalln("Failed to connect to database: ", err)
+		logger.Fatal("Failed to connect to database: ", err)
 	}
 
-	logger.Infoln("Dependencies initialized")
+	logger.Info("Dependencies initialized")
 	return &Dependencies{
 		Config:         config,
 		DatabaseClient: databaseClient,

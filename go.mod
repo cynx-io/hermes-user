@@ -5,7 +5,7 @@ go 1.24.3
 require (
 	github.com/go-playground/validator/v10 v10.26.0
 	github.com/golang/protobuf v1.5.0
-	github.com/gorilla/mux v1.8.1
+	github.com/joho/godotenv v1.5.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.20.1
 	go.elastic.co/ecslogrus v1.0.0
