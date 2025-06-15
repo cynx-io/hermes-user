@@ -2,7 +2,7 @@ package entity
 
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
-	pb "hermes/api/proto/user"
+	pb "hermes/api/proto/gen/hermes"
 )
 
 type TblUser struct {

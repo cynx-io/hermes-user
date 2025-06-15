@@ -4,7 +4,7 @@ import (
 	"context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	pb "hermes/api/proto/user"
+	pb "hermes/api/proto/gen/hermes"
 	"hermes/internal/module/usermodule"
 	"hermes/internal/pkg/logger"
 	"net"

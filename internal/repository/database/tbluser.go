@@ -3,7 +3,7 @@ package database
 import (
 	"context"
 	"fmt"
-	pb "hermes/api/proto/user"
+	pb "hermes/api/proto/gen/hermes"
 	"hermes/internal/model/entity"
 
 	"gorm.io/gorm"

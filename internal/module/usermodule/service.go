@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"golang.org/x/crypto/bcrypt"
-	pb "hermes/api/proto/user"
+	pb "hermes/api/proto/gen/hermes"
 	"hermes/internal/constant"
 	"hermes/internal/model/entity"
 	"hermes/internal/repository/database"

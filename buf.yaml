@@ -1,0 +1,8 @@
+version: v1beta1
+name: github.com/cynxees/hermes-user
+build:
+  roots:
+    - api/proto/src
+deps:
+  - buf.build/bufbuild/protovalidate
+  - buf.build/googleapis/googleapis

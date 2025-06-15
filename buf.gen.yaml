@@ -1,0 +1,17 @@
+# File: buf.gen.yaml (in project root)
+
+version: v1
+plugins:
+  - name: go
+    out: api/proto/gen
+    opt: [paths=source_relative]
+  - name: go-grpc
+    out: api/proto/gen
+    opt: [paths=source_relative]
+  - name: validate
+    out: api/proto/gen
+    opt: [paths=source_relative, lang=go]
+  - name: es
+    out: web/gen
+    opt: [target=ts]
+    strategy: directory

@@ -8,12 +8,12 @@
   },
   "database": {
     "host": "devspace",
-    "port": 3306,
+    "port": 31320,
     "database": "db_hermes",
     "username": "cynx",
-    "password": "pass",
+    "password": "derwin334",
     "dialect": "mysql",
-    "autoMigrate": false,
+    "autoMigrate": true,
     "pool": {
       "max": 5,
       "min": 0,

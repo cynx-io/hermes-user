@@ -9,10 +9,6 @@ run:
 	make tidy
 	go run main.go
 
-build:
-	make tidy
-	go build
-
 install_deps:
 	# These needs sudo
 	# apt install build-essential -y
@@ -21,22 +17,6 @@ install_deps:
 	go install github.com/google/wire/cmd/wire@latest
 	go get -u gorm.io/gorm
 	go get -u gorm.io/driver/sqlite
-
-.PHONY: proto
-proto:
-	@echo "Generating proto files..."
-	protoc --experimental_allow_proto3_optional \
-		--go_out=. \
-		--go_opt=paths=source_relative \
-		--go-grpc_out=. \
-		--go-grpc_opt=paths=source_relative \
-		api/proto/user/user.proto
-	@echo "Proto files generated successfully!"
-
-.PHONY: build
-build: proto
-	@echo "Building application..."
-	go build -o bin/hermes main.go
 
 .PHONY: run
 run:clean proto
@@ -53,3 +33,22 @@ clean:
 all: clean proto build
 
 
+PROTO_SRC_DIR := api/proto/src
+PROTO_GEN_DIR := api/proto/gen
+MICROSERVICES := $(notdir $(wildcard $(PROTO_SRC_DIR)/*))
+
+# Proto generation
+proto-clean:
+	@echo "Cleaning generated proto files..."
+	rm -rf $(PROTO_GEN_DIR)/*
+
+proto-gen:
+	@echo "Generating proto files..."
+	cd . && buf generate
+
+proto: proto-clean proto-gen
+
+build_and_push:
+	docker build -t hermes-user-dev:latest .
+	docker tag hermes-user-dev:latest derwin334/hermes-user-dev:latest
+	docker push derwin334/hermes-user-dev:latest

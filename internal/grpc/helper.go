@@ -1,7 +1,7 @@
 package grpc
 
 import (
-	pb "hermes/api/proto/user"
+	pb "hermes/api/proto/gen/hermes"
 )
 
 // ResponseWithBase is an interface that all gRPC responses with Base field must implement
