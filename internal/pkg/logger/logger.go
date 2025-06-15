@@ -12,19 +12,27 @@ var (
 func InitLogger() {
 	l = logrus.New()
 	l.SetFormatter(&ecslogrus.Formatter{})
-	l.SetLevel(logrus.InfoLevel)
+	l.SetLevel(logrus.DebugLevel)
 }
 
-func Infoln(args ...interface{}) {
-	l.Infoln(args...)
+func Debug(args ...interface{}) {
+	l.Debugln(args...)
 }
 
-func Fatalln(args ...interface{}) {
-	l.Fatalln(args...)
+func Warn(args ...interface{}) {
+	l.Warnln(args...)
 }
 
-func Errorf(format string, args ...interface{}) {
-	l.Errorf(format, args...)
+func Info(args ...interface{}) {
+	l.Info(args...)
+}
+
+func Error(args ...interface{}) {
+	l.Errorln(args...)
+}
+
+func Fatal(args ...interface{}) {
+	l.Fatal(args...)
 }
 
 func Infof(format string, args ...interface{}) {
