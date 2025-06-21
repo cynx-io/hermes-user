@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package hermes;
+
+option go_package = "hermes/api/proto";
+
+import "google/protobuf/timestamp.proto";
+import "core.proto";
+import "hermes/generic.proto";
+import "hermes/object.proto";
+
+// User service definition
+service HermesUserService {
+  // Check if a username exists
+  rpc CheckUsername(UsernameRequest) returns (CheckUsernameResponse) {}
+
+  // Get user by username
+  rpc GetUser(UsernameRequest) returns (GetUserResponse) {}
+
+  // Create new user
+  rpc CreateUser(UsernamePasswordRequest) returns (CreateUserResponse) {}
+
+  // Paginate users
+  rpc PaginateUsers(PaginateRequest) returns (PaginateUsersResponse) {}
+
+  rpc ValidatePassword(UsernamePasswordRequest) returns (ValidatePasswordResponse) {}
+}
+
+// Response message for checking username
+message CheckUsernameResponse {
+  core.BaseResponse base = 1;
+  bool exists = 2;
+}
+
+// Response message for getting user
+message GetUserResponse {
+  core.BaseResponse base = 1;
+  User user = 2;
+}
+
+// Response message for getting user
+message ValidatePasswordResponse {
+  core.BaseResponse base = 1;
+  User user = 2;
+}
+
+// Response message for creating user
+message CreateUserResponse {
+  core.BaseResponse base = 1;
+  User user = 2;
+}
+
+// Response message for paginating users
+message PaginateUsersResponse {
+  core.BaseResponse base = 1;
+  repeated User users = 2;
+}

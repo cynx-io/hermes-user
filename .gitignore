@@ -44,7 +44,7 @@ dist/
 .DS_Store
 Thumbs.db
 
-hermes
+./hermes
 
 sandbox
 

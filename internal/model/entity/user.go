@@ -1,8 +1,8 @@
 package entity
 
 import (
+	pb "github.com/cynxees/hermes-user/api/proto/gen/hermes"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	pb "hermes/api/proto/gen/hermes"
 )
 
 type TblUser struct {
@@ -12,8 +12,8 @@ type TblUser struct {
 	Coin     int    `gorm:"default:0" json:"coin"`
 }
 
-func (u TblUser) ToUserResponse() *pb.UserData {
-	return &pb.UserData{
+func (u TblUser) ToUserResponse() *pb.User {
+	return &pb.User{
 		Id:          int32(u.Id),
 		Username:    u.Username,
 		Coin:        int32(u.Coin),

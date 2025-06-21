@@ -1,21 +1,46 @@
 package response
 
-import "hermes/internal/model/response/responsecode"
-
-type WebsocketResponseType string
-
-const (
-	WebsocketResponseTypeAck       WebsocketResponseType = "ack"
-	WebsocketResponseTypeError     WebsocketResponseType = "error"
-	WebsocketResponseTypeGameState WebsocketResponseType = "game_state"
-	WebsocketResponseTypeJoin      WebsocketResponseType = "join"
+import (
+	"github.com/cynxees/cynx-core/src/response"
 )
 
-type APIResponse struct {
-	Code      responsecode.ResponseCode `json:"code"`
-	CodeName  string                    `json:"codename"`
-	Data      interface{}               `json:"data,omitempty"`       // Optional for success responses
-	Error     string                    `json:"error,omitempty"`      // Optional for error responses
-	RequestId string                    `json:"request_id,omitempty"` // Optional for now
-	Type      WebsocketResponseType     `json:"type,omitempty"`       // for websocket responses
+func setResponse[Resp response.Generic](resp Resp, code response.Code) {
+	resp.GetBase().Code = code.String()
+	resp.GetBase().Desc = responseCodeNames[code]
+}
+
+func Success[Resp response.Generic](resp Resp) {
+	setResponse(resp, codeSuccess)
+}
+
+func ErrorValidation[Resp response.Generic](resp Resp) {
+	setResponse(resp, codeValidationError)
+}
+
+func ErrorUnauthorized[Resp response.Generic](resp Resp) {
+	setResponse(resp, codeUnauthorized)
+}
+
+func ErrorNotAllowed[Resp response.Generic](resp Resp) {
+	setResponse(resp, codeNotAllowed)
+}
+
+func ErrorNotFound[Resp response.Generic](resp Resp) {
+	setResponse(resp, codeNotFound)
+}
+
+func ErrorInvalidCredentials[Resp response.Generic](resp Resp) {
+	setResponse(resp, codeInvalidCredentials)
+}
+
+func ErrorInternal[Resp response.Generic](resp Resp) {
+	setResponse(resp, codeInternalError)
+}
+
+func ErrorDbUser[Resp response.Generic](resp Resp) {
+	setResponse(resp, codeDbUserError)
+}
+
+func ErrorDbUserGuest[Resp response.Generic](resp Resp) {
+	setResponse(resp, codeDbUserGuestError)
 }

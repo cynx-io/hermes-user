@@ -1,8 +1,9 @@
 package app
 
 import (
-	"hermes/internal/pkg/logger"
-	"log"
+	"context"
+	"github.com/cynxees/cynx-core/src/logger"
+	"github.com/cynxees/hermes-user/internal/dependencies/config"
 )
 
 type App struct {
@@ -11,26 +12,26 @@ type App struct {
 	Services     *Services
 }
 
-func NewApp(configPath string) (*App, error) {
+func NewApp(ctx context.Context) (*App, error) {
 
-	log.Println("Initializing Dependencies")
-	dependencies := NewDependencies(configPath)
+	logger.Info(ctx, "Initializing Dependencies")
+	dependencies := NewDependencies(ctx)
 
-	if dependencies.Config.Database.AutoMigrate {
-		logger.Info("Running database migrations")
-		err := dependencies.DatabaseClient.RunMigrations()
+	if config.Config.Database.AutoMigrate {
+		logger.Info(ctx, "Running database migrations")
+		err := dependencies.DatabaseClient.RunMigrations(ctx)
 		if err != nil {
-			logger.Fatal("Failed to run migrations: ", err)
+			logger.Fatal(ctx, "Failed to run migrations: ", err)
 		}
 	}
 
-	logger.Info("Initializing Repositories")
+	logger.Info(ctx, "Initializing Repositories")
 	repos := NewRepos(dependencies)
 
-	logger.Info("Initializing Services")
+	logger.Info(ctx, "Initializing Services")
 	services := NewServices(repos, dependencies)
 
-	logger.Info("App initialized")
+	logger.Info(ctx, "App initialized")
 	return &App{
 		Dependencies: dependencies,
 		Repos:        repos,

@@ -110,9 +110,9 @@ export type GetUserResponse = Message<"hermes.GetUserResponse"> & {
   base?: BaseResponse;
 
   /**
-   * @generated from field: hermes.UserData user = 2;
+   * @generated from field: hermes.User user = 2;
    */
-  user?: UserData;
+  user?: User;
 };
 
 /**
@@ -158,9 +158,9 @@ export type ValidatePasswordResponse = Message<"hermes.ValidatePasswordResponse"
   base?: BaseResponse;
 
   /**
-   * @generated from field: hermes.UserData user = 2;
+   * @generated from field: hermes.User user = 2;
    */
-  user?: UserData;
+  user?: User;
 };
 
 /**
@@ -206,9 +206,9 @@ export type CreateUserResponse = Message<"hermes.CreateUserResponse"> & {
   base?: BaseResponse;
 
   /**
-   * @generated from field: hermes.UserData user = 2;
+   * @generated from field: hermes.User user = 2;
    */
-  user?: UserData;
+  user?: User;
 };
 
 /**
@@ -264,9 +264,9 @@ export type PaginateUsersResponse = Message<"hermes.PaginateUsersResponse"> & {
   base?: BaseResponse;
 
   /**
-   * @generated from field: repeated hermes.UserData users = 2;
+   * @generated from field: repeated hermes.User users = 2;
    */
-  users: UserData[];
+  users: User[];
 
   /**
    * @generated from field: int32 total = 3;
@@ -299,9 +299,9 @@ export const PaginateUsersResponseSchema: GenMessage<PaginateUsersResponse> = /*
 /**
  * User response message
  *
- * @generated from message hermes.UserData
+ * @generated from message hermes.User
  */
-export type UserData = Message<"hermes.UserData"> & {
+export type User = Message<"hermes.User"> & {
   /**
    * @generated from field: int32 id = 1;
    */
@@ -329,10 +329,10 @@ export type UserData = Message<"hermes.UserData"> & {
 };
 
 /**
- * Describes the message hermes.UserData.
- * Use `create(UserDataSchema)` to create a new message.
+ * Describes the message hermes.User.
+ * Use `create(UserSchema)` to create a new message.
  */
-export const UserDataSchema: GenMessage<UserData> = /*@__PURE__*/
+export const UserSchema: GenMessage<User> = /*@__PURE__*/
   messageDesc(file_user, 11);
 
 /**

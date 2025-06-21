@@ -1,7 +1,7 @@
 package app
 
 import (
-	"hermes/internal/module/usermodule"
+	"github.com/cynxees/hermes-user/internal/module/usermodule"
 )
 
 type Services struct {

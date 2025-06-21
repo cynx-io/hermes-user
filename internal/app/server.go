@@ -1,39 +1,36 @@
 package app
 
 import (
+	"context"
 	"errors"
 	"fmt"
+	"github.com/cynxees/cynx-core/src/logger"
+	"github.com/cynxees/hermes-user/internal/dependencies/config"
+	"github.com/cynxees/hermes-user/internal/grpc"
 	"golang.org/x/sync/errgroup"
-	"hermes/internal/dependencies"
-	"hermes/internal/grpc"
-	"hermes/internal/pkg/logger"
 	"strconv"
 )
 
 type Servers struct {
 	grpcServer *grpc.Server
-	config     *dependencies.Config
 }
 
 func (app *App) NewServers() (*Servers, error) {
-	config := app.Dependencies.Config
-
 	// Create gRPC server
 	grpcServer := grpc.NewServer(app.Services.UserService)
 
 	return &Servers{
 		grpcServer: grpcServer,
-		config:     config,
 	}, nil
 }
 
-func (s *Servers) Start() error {
+func (s *Servers) Start(ctx context.Context) error {
 	var g errgroup.Group
 
 	g.Go(func() error {
-		logger.Info("Starting gRPC server")
-		address := s.config.App.Address + ":" + strconv.Itoa(s.config.App.Port)
-		if err := s.grpcServer.Start(address); err != nil {
+		logger.Info(ctx, "Starting gRPC server")
+		address := config.Config.App.Address + ":" + strconv.Itoa(config.Config.App.Port)
+		if err := s.grpcServer.Start(ctx, address); err != nil {
 			return fmt.Errorf("failed to start gRPC server: %w", err)
 		}
 		return nil

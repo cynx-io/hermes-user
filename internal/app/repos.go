@@ -1,7 +1,7 @@
 package app
 
 import (
-	"hermes/internal/repository/database"
+	"github.com/cynxees/hermes-user/internal/repository/database"
 )
 
 type Repos struct {

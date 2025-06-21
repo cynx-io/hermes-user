@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package hermes;
+
+option go_package = "hermes/api/proto";
+
+message User {
+  int32 id = 1;
+  string username = 2;
+  int32 coin = 3;
+  string user_type = 4;
+  google.protobuf.Timestamp created_date = 10;
+  google.protobuf.Timestamp updated_date = 11;
+}

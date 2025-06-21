@@ -1,8 +1,8 @@
 package helper
 
 import (
-	"hermes/internal/model/response"
-	"hermes/internal/model/response/responsecode"
+	"github.com/cynxees/hermes-user/internal/model/response"
+	"github.com/cynxees/hermes-user/internal/model/response/responsecode"
 	"net/http"
 )
 

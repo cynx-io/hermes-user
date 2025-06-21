@@ -6,14 +6,18 @@
     "debug": true,
     "key": "sashimi"
   },
+  "elastic": {
+    "url": "http://elasticsearch.cynx.buzz/",
+    "level": "debug"
+  },
   "database": {
     "host": "devspace",
-    "port": 31320,
+    "port": 30306,
     "database": "db_hermes",
     "username": "cynx",
     "password": "derwin334",
     "dialect": "mysql",
-    "autoMigrate": true,
+    "autoMigrate": false,
     "pool": {
       "max": 5,
       "min": 0,

@@ -1,13 +1,15 @@
 package dependencies
 
 import (
+	"context"
 	"fmt"
-	"hermes/internal/model/entity"
-	"log"
+	"github.com/cynxees/cynx-core/src/logger"
+	"github.com/cynxees/hermes-user/internal/dependencies/config"
+	"github.com/cynxees/hermes-user/internal/model/entity"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	gormlogger "gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 )
 
@@ -15,19 +17,19 @@ type DatabaseClient struct {
 	Db *gorm.DB
 }
 
-func NewDatabaseClient(config *Config) (*DatabaseClient, error) {
+func NewDatabaseClient() (*DatabaseClient, error) {
 	// Construct the DSN (Data Source Name)
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true",
-		config.Database.Username,
-		config.Database.Password,
-		config.Database.Host,
-		config.Database.Port,
-		config.Database.Database,
+		config.Config.Database.Username,
+		config.Config.Database.Password,
+		config.Config.Database.Host,
+		config.Config.Database.Port,
+		config.Config.Database.Database,
 	)
 
 	// Open a connection with GORM using the MySQL driver
 	db, err := gorm.Open(mysql.Open(dataSourceName), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info), // Enable GORM's built-in logging
+		Logger: gormlogger.Default.LogMode(gormlogger.Info),
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
 		},
@@ -56,14 +58,14 @@ func (client *DatabaseClient) Close() error {
 	return sqlDB.Close()
 }
 
-func (client *DatabaseClient) RunMigrations() error {
+func (client *DatabaseClient) RunMigrations(ctx context.Context) error {
 
-	log.Println("Running database migrations")
+	logger.Info(ctx, "Running database migrations")
 	err := client.Db.AutoMigrate(entity.TblUser{})
 	if err != nil {
 		return fmt.Errorf("failed to run migrations: %w", err)
 	}
 
-	log.Println("Migrations applied successfully")
+	logger.Info(ctx, "Migrations applied successfully")
 	return nil
 }

@@ -3,12 +3,12 @@ package usermodule
 import (
 	"context"
 	"errors"
+	pb "github.com/cynxees/hermes-user/api/proto/gen/hermes"
+	"github.com/cynxees/hermes-user/internal/constant"
+	"github.com/cynxees/hermes-user/internal/model/entity"
+	"github.com/cynxees/hermes-user/internal/model/response"
+	"github.com/cynxees/hermes-user/internal/repository/database"
 	"golang.org/x/crypto/bcrypt"
-	pb "hermes/api/proto/gen/hermes"
-	"hermes/internal/constant"
-	"hermes/internal/model/entity"
-	"hermes/internal/repository/database"
-	"math"
 	"strconv"
 )
 
@@ -29,199 +29,121 @@ func NewUserService(tblUser *database.TblUser) *UserService {
 	}
 }
 
-func (service *UserService) CheckUsername(ctx context.Context, username string) (*pb.CheckUsernameResponse, error) {
-	exists, err := service.tblUser.CheckUserExists(ctx, "username", username)
+func (service *UserService) CheckUsername(ctx context.Context, req *pb.UsernameRequest, resp *pb.CheckUsernameResponse) (err error) {
+	exists, err := service.tblUser.CheckUserExists(ctx, "username", req.Username)
 	if err != nil {
-		return &pb.CheckUsernameResponse{
-			Base: &pb.BaseResponse{
-				Code: ResponseCodeDBError,
-				Desc: "Database error while checking username",
-			},
-		}, err
+		response.ErrorDbUser(resp)
 	}
 
-	return &pb.CheckUsernameResponse{
-		Base: &pb.BaseResponse{
-			Code: ResponseCodeSuccess,
-			Desc: "Success",
-		},
-		Exists: exists,
-	}, nil
+	response.Success(resp)
+	resp.Exists = exists
+	return
 }
 
-func (service *UserService) GetUser(ctx context.Context, username string) (*pb.GetUserResponse, error) {
-	user, err := service.tblUser.GetUser(ctx, "username", username)
+func (service *UserService) GetUser(ctx context.Context, req *pb.UsernameRequest, resp *pb.GetUserResponse) (err error) {
+	user, err := service.tblUser.GetUser(ctx, "username", req.Username)
 	if err != nil {
 		if errors.Is(err, constant.ErrDatabaseNotFound) {
-			return &pb.GetUserResponse{
-				Base: &pb.BaseResponse{
-					Code: ResponseCodeNotFound,
-					Desc: "User not found",
-				},
-			}, err
+			response.ErrorNotFound(resp)
+			return
 		}
-		return &pb.GetUserResponse{
-			Base: &pb.BaseResponse{
-				Code: ResponseCodeDBError,
-				Desc: "Database error while getting user",
-			},
-		}, err
+		response.ErrorDbUser(resp)
+		return
 	}
 
-	return &pb.GetUserResponse{
-		Base: &pb.BaseResponse{
-			Code: ResponseCodeSuccess,
-			Desc: "Success",
-		},
-		User: user.ToUserResponse(),
-	}, nil
+	response.Success(resp)
+	resp.User = user.ToUserResponse()
+	return
 }
 
-func (service *UserService) CreateUser(ctx context.Context, username, password string) (*pb.CreateUserResponse, error) {
+func (service *UserService) CreateUser(ctx context.Context, req *pb.UsernamePasswordRequest, resp *pb.CreateUserResponse) (err error) {
 	// Check if username exists
-	exists, err := service.CheckUsername(ctx, username)
+	exists, err := service.tblUser.CheckUserExists(ctx, "username", req.Username)
 	if err != nil {
-		return &pb.CreateUserResponse{
-			Base: &pb.BaseResponse{
-				Code: ResponseCodeDBError,
-				Desc: "Database error while checking username",
-			},
-		}, err
+		response.ErrorDbUser(resp)
+		return
 	}
-	if exists.Exists {
-		return &pb.CreateUserResponse{
-			Base: &pb.BaseResponse{
-				Code: ResponseCodeValidation,
-				Desc: "Username already exists",
-			},
-		}, errors.New("username already exists")
+	if exists {
+		response.ErrorNotAllowed(resp)
+		return
 	}
 
 	// Hash password
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return &pb.CreateUserResponse{
-			Base: &pb.BaseResponse{
-				Code: ResponseCodeValidation,
-				Desc: "Error hashing password",
-			},
-		}, err
+		response.ErrorInternal(resp)
+		return
 	}
 
 	// Create user
 	user := &entity.TblUser{
-		Username: username,
+		Username: req.Username,
 		Password: string(hashedPassword),
 		Coin:     0,
 	}
 
 	id, err := service.tblUser.InsertUser(ctx, *user)
 	if err != nil {
-		return &pb.CreateUserResponse{
-			Base: &pb.BaseResponse{
-				Code: ResponseCodeDBError,
-				Desc: "Database error while creating user",
-			},
-		}, err
+		response.ErrorDbUser(resp)
+		return
 	}
 
 	// Get the created user
 	createdUser, err := service.tblUser.GetUser(ctx, "id", strconv.Itoa(id))
 	if err != nil {
-		return &pb.CreateUserResponse{
-			Base: &pb.BaseResponse{
-				Code: ResponseCodeDBError,
-				Desc: "Database error while getting created user",
-			},
-		}, err
+		response.ErrorDbUser(resp)
+		return
 	}
 
-	return &pb.CreateUserResponse{
-		Base: &pb.BaseResponse{
-			Code: ResponseCodeSuccess,
-			Desc: "Success",
-		},
-		User: createdUser.ToUserResponse(),
-	}, nil
+	response.Success(resp)
+	resp.User = createdUser.ToUserResponse()
+	return
 }
 
-func (service *UserService) PaginateUsers(ctx context.Context, req *pb.PaginateRequest) (*pb.PaginateUsersResponse, error) {
-	users, total, err := service.tblUser.PaginateUser(ctx, req)
+func (service *UserService) PaginateUsers(ctx context.Context, req *pb.PaginateRequest, resp *pb.PaginateUsersResponse) (err error) {
+	users, _, err := service.tblUser.PaginateUser(ctx, req)
 	if err != nil {
-		return &pb.PaginateUsersResponse{
-			Base: &pb.BaseResponse{
-				Code: ResponseCodeDBError,
-				Desc: "Database error while paginating users",
-			},
-		}, err
+		response.ErrorDbUser(resp)
+		return
 	}
 
 	if len(users) == 0 {
-		return &pb.PaginateUsersResponse{
-			Base: &pb.BaseResponse{
-				Code: ResponseCodeNotFound,
-				Desc: "No users found",
-			},
-		}, errors.New("no users found")
+		response.ErrorNotFound(resp)
+		return
 	}
 
-	usersResponse := make([]*pb.UserData, len(users))
+	usersResponse := make([]*pb.User, len(users))
 	for i, user := range users {
 		usersResponse[i] = user.ToUserResponse()
 	}
 
-	totalPages := int32(math.Ceil(float64(total) / float64(req.Limit)))
-
-	return &pb.PaginateUsersResponse{
-		Base: &pb.BaseResponse{
-			Code: ResponseCodeSuccess,
-			Desc: "Success",
-		},
-		Users:      usersResponse,
-		Total:      int32(total),
-		Page:       req.Page,
-		Limit:      req.Limit,
-		TotalPages: totalPages,
-	}, nil
+	response.Success(resp)
+	resp.Users = usersResponse
+	return
 }
 
-func (service *UserService) ValidatePassword(ctx context.Context, username string, password string) (*pb.ValidatePasswordResponse, error) {
+func (service *UserService) ValidatePassword(ctx context.Context, req *pb.UsernamePasswordRequest, resp *pb.ValidatePasswordResponse) (err error) {
 
 	// Get user by username
-	user, err := service.tblUser.GetUser(ctx, "username", username)
+	user, err := service.tblUser.GetUser(ctx, "username", req.Username)
 	if err != nil {
 		if errors.Is(err, constant.ErrDatabaseNotFound) {
-			return &pb.ValidatePasswordResponse{
-				Base: &pb.BaseResponse{
-					Code: ResponseCodeNotFound,
-					Desc: "User not found",
-				},
-			}, err
+			response.ErrorNotFound(resp)
+			return
 		}
-		return &pb.ValidatePasswordResponse{
-			Base: &pb.BaseResponse{
-				Code: ResponseCodeDBError,
-				Desc: "Database error while getting user",
-			},
-		}, err
+		response.ErrorDbUser(resp)
+		return
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 	if err != nil {
-		return &pb.ValidatePasswordResponse{
-			Base: &pb.BaseResponse{
-				Code: ResponseCodeValidation,
-				Desc: "Invalid password",
-			},
-		}, err
+		response.ErrorValidation(resp)
+		resp.Base.Code = ResponseCodeValidation
+		resp.Base.Desc = "Invalid password"
+		return
 	}
 
-	return &pb.ValidatePasswordResponse{
-		Base: &pb.BaseResponse{
-			Code: ResponseCodeSuccess,
-			Desc: "Password is valid",
-		},
-		User: user.ToUserResponse(),
-	}, nil
-
+	response.Success(resp)
+	resp.User = user.ToUserResponse()
+	return
 }

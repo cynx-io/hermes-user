@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
-	"hermes/internal/helper"
+	"github.com/cynxees/hermes-user/internal/helper"
 	"io"
 	"log"
 	"net"
@@ -17,17 +17,17 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Log the incoming request details
 		startTime := time.Now()
-		log.Printf("Incoming Request: %s %s\n", r.Method, r.URL.Path)
-		log.Printf("Headers: %v\n", r.Header)
-		log.Printf("Remote Addr: %s\n", r.RemoteAddr)
-		log.Printf("Client IP: %s\n", helper.GetClientIP(r))
+		logger.Printf("Incoming Request: %s %s\n", r.Method, r.URL.Path)
+		logger.Printf("Headers: %v\n", r.Header)
+		logger.Printf("Remote Addr: %s\n", r.RemoteAddr)
+		logger.Printf("Client IP: %s\n", helper.GetClientIP(r))
 
 		// Read the body of the request (if possible)
 		var requestBody string
 		if r.Body != nil {
 			bodyBytes, err := io.ReadAll(r.Body)
 			if err != nil {
-				log.Printf("Error reading request body: %v\n", err)
+				logger.Printf("Error reading request body: %v\n", err)
 			} else {
 				requestBody = string(bodyBytes)
 			}
@@ -36,7 +36,7 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 		}
 
 		if requestBody != "" {
-			log.Printf("Request Body: %s\n", requestBody)
+			logger.Printf("Request Body: %s\n", requestBody)
 		}
 
 		// Create a ResponseWriter wrapper to capture the status code and response body
@@ -44,9 +44,9 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 		next.ServeHTTP(lrw, r)
 
 		// Log the response details
-		log.Printf("Response Status: %d\n", lrw.statusCode)
-		log.Printf("Response Body: %s\n", lrw.body.String())
-		log.Printf("Request processed in %s\n", time.Since(startTime))
+		logger.Printf("Response Status: %d\n", lrw.statusCode)
+		logger.Printf("Response Body: %s\n", lrw.body.String())
+		logger.Printf("Request processed in %s\n", time.Since(startTime))
 	})
 }
 

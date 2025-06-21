@@ -1,41 +1,25 @@
 package app
 
 import (
-	"hermes/internal/dependencies"
-	"hermes/internal/pkg"
-	"hermes/internal/pkg/logger"
-	"log"
+	"context"
+	"github.com/cynxees/cynx-core/src/logger"
+	"github.com/cynxees/hermes-user/internal/dependencies"
 )
 
 type Dependencies struct {
-	Config *dependencies.Config
-
 	DatabaseClient *dependencies.DatabaseClient
 }
 
-func NewDependencies(configPath string) *Dependencies {
+func NewDependencies(ctx context.Context) *Dependencies {
 
-	log.Println("Loading Config")
-	config, err := dependencies.LoadConfig(configPath)
+	logger.Info(ctx, "Connecting to Database")
+	databaseClient, err := dependencies.NewDatabaseClient()
 	if err != nil {
-		panic(err)
+		logger.Fatal(ctx, "Failed to connect to database: ", err)
 	}
 
-	log.Println("Initializing Logger")
-	logger.InitLogger()
-
-	logger.Info("Initializing Validator")
-	pkg.InitValidator()
-
-	logger.Info("Connecting to Database")
-	databaseClient, err := dependencies.NewDatabaseClient(config)
-	if err != nil {
-		logger.Fatal("Failed to connect to database: ", err)
-	}
-
-	logger.Info("Dependencies initialized")
+	logger.Info(ctx, "Dependencies initialized")
 	return &Dependencies{
-		Config:         config,
 		DatabaseClient: databaseClient,
 	}
 }

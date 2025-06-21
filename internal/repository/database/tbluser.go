@@ -3,8 +3,9 @@ package database
 import (
 	"context"
 	"fmt"
-	pb "hermes/api/proto/gen/hermes"
-	"hermes/internal/model/entity"
+	pb "github.com/cynxees/hermes-user/api/proto/gen/hermes"
+	"github.com/cynxees/hermes-user/internal/model/entity"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -61,20 +62,32 @@ func (db *TblUser) PaginateUser(ctx context.Context, req *pb.PaginateRequest) ([
 	query := db.DB.Model(&entity.TblUser{})
 
 	// Apply sorting
-	if req.SortBy != "" {
+	if req.SortBy != nil {
 		sortOrder := "ASC"
-		if req.SortOrder == "desc" {
-			sortOrder = "DESC"
+		sortOrder = "ASC"
+		if req.SortOrder != nil {
+			sortOrder = strings.ToUpper(*req.SortOrder)
+			if sortOrder != "ASC" && sortOrder != "DESC" {
+				sortOrder = "ASC"
+			}
 		}
-		query = query.Order(fmt.Sprintf("%s %s", req.SortBy, sortOrder))
+		query = query.Order(fmt.Sprintf("%s %s", *req.SortBy, sortOrder))
 	} else {
 		// Default sorting by id
 		query = query.Order("id ASC")
 	}
 
 	// Apply pagination
-	offset := (req.Page - 1) * req.Limit
-	query = query.Limit(int(req.Limit)).Offset(int(offset))
+	offset := 0
+	if req.Offset != nil {
+		offset = int(*req.Offset)
+	}
+
+	limit := int(10)
+	if req.Limit != nil {
+		limit = int(*req.Limit)
+	}
+	query = query.Limit(limit).Offset(offset)
 
 	// Execute query
 	if err := query.Find(&users).Error; err != nil {

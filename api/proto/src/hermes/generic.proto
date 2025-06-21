@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "core.proto";
+
+package hermes;
+
+option go_package = "hermes/api/proto";
+
+message UsernameRequest {
+  core.BaseRequest base = 1;
+  string username = 2;
+}
+
+message UsernamePasswordRequest {
+  core.BaseRequest base = 1;
+  string username = 2;
+  string password = 3;
+}
+
+message PaginateRequest {
+  core.BaseRequest base = 1;
+  optional int32 limit = 2;
+  optional int32 offset = 3;
+  optional string keyword = 4;
+  optional string sort_by = 5;
+  optional string sort_order = 6;
+}
