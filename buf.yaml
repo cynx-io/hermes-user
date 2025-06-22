@@ -4,6 +4,6 @@ build:
   roots:
     - api/proto/src
 deps:
-  - buf.build/bufbuild/protovalidate
-  - buf.build/googleapis/googleapis
   - buf.build/cynx/cynx-core
+#  - buf.build/bufbuild/protovalidate
+#  - buf.build/googleapis/googleapis

@@ -15,39 +15,29 @@ service HermesUserService {
   rpc CheckUsername(UsernameRequest) returns (CheckUsernameResponse) {}
 
   // Get user by username
-  rpc GetUser(UsernameRequest) returns (GetUserResponse) {}
+  rpc GetUser(UsernameRequest) returns (UserResponse) {}
 
   // Create new user
-  rpc CreateUser(UsernamePasswordRequest) returns (CreateUserResponse) {}
+  rpc CreateUser(UsernamePasswordRequest) returns (UserResponse) {}
+
+  // Create new user
+  rpc UpsertGuestUser(core.GenericRequest) returns (UserResponse) {}
 
   // Paginate users
   rpc PaginateUsers(PaginateRequest) returns (PaginateUsersResponse) {}
 
-  rpc ValidatePassword(UsernamePasswordRequest) returns (ValidatePasswordResponse) {}
+  rpc ValidatePassword(UsernamePasswordRequest) returns (UserResponse) {}
+}
+
+message UserResponse {
+  core.BaseResponse base = 1;
+  User user = 2;
 }
 
 // Response message for checking username
 message CheckUsernameResponse {
   core.BaseResponse base = 1;
   bool exists = 2;
-}
-
-// Response message for getting user
-message GetUserResponse {
-  core.BaseResponse base = 1;
-  User user = 2;
-}
-
-// Response message for getting user
-message ValidatePasswordResponse {
-  core.BaseResponse base = 1;
-  User user = 2;
-}
-
-// Response message for creating user
-message CreateUserResponse {
-  core.BaseResponse base = 1;
-  User user = 2;
 }
 
 // Response message for paginating users

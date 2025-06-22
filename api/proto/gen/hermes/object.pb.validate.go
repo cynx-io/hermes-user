@@ -64,6 +64,8 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for UserType
 
+	// no validation rules for UserTypeString
+
 	if all {
 		switch v := interface{}(m.GetCreatedDate()).(type) {
 		case interface{ ValidateAll() error }:

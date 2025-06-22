@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	core "github.com/cynxees/cynx-core/proto/gen"
 	grpccore "github.com/cynxees/cynx-core/src/grpc"
 	"github.com/cynxees/cynx-core/src/logger"
 	pb "github.com/cynxees/hermes-user/api/proto/gen/hermes"
@@ -40,11 +41,11 @@ func (s *Server) CheckUsername(ctx context.Context, req *pb.UsernameRequest) (re
 	return grpccore.HandleGrpc(ctx, req, resp, s.userService.CheckUsername)
 }
 
-func (s *Server) GetUser(ctx context.Context, req *pb.UsernameRequest) (resp *pb.GetUserResponse, err error) {
+func (s *Server) GetUser(ctx context.Context, req *pb.UsernameRequest) (resp *pb.UserResponse, err error) {
 	return grpccore.HandleGrpc(ctx, req, resp, s.userService.GetUser)
 }
 
-func (s *Server) CreateUser(ctx context.Context, req *pb.UsernamePasswordRequest) (resp *pb.CreateUserResponse, err error) {
+func (s *Server) CreateUser(ctx context.Context, req *pb.UsernamePasswordRequest) (resp *pb.UserResponse, err error) {
 	return grpccore.HandleGrpc(ctx, req, resp, s.userService.CreateUser)
 }
 
@@ -52,6 +53,10 @@ func (s *Server) PaginateUsers(ctx context.Context, req *pb.PaginateRequest) (re
 	return grpccore.HandleGrpc(ctx, req, resp, s.userService.PaginateUsers)
 }
 
-func (s *Server) ValidatePassword(ctx context.Context, req *pb.UsernamePasswordRequest) (resp *pb.ValidatePasswordResponse, err error) {
+func (s *Server) ValidatePassword(ctx context.Context, req *pb.UsernamePasswordRequest) (resp *pb.UserResponse, err error) {
 	return grpccore.HandleGrpc(ctx, req, resp, s.userService.ValidatePassword)
+}
+
+func (s *Server) UpsertGuestUser(ctx context.Context, req *core.GenericRequest) (resp *pb.UserResponse, err error) {
+	return grpccore.HandleGrpc(ctx, req, resp, s.userService.UpsertGuestUser)
 }

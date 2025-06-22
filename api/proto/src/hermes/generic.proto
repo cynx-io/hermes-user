@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 import "core.proto";
-
 package hermes;
 
 option go_package = "hermes/api/proto";

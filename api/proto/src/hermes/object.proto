@@ -10,7 +10,8 @@ message User {
   int32 id = 1;
   string username = 2;
   int32 coin = 3;
-  string user_type = 4;
+  int32 user_type = 4;
+  string user_type_string = 5;
   google.protobuf.Timestamp created_date = 10;
   google.protobuf.Timestamp updated_date = 11;
 }

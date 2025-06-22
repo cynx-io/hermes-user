@@ -96,3 +96,25 @@ func (db *TblUser) PaginateUser(ctx context.Context, req *pb.PaginateRequest) ([
 
 	return users, total, nil
 }
+
+func (db *TblUser) CountIp(ctx context.Context, ipAddress string) (count int64, err error) {
+	err = db.DB.WithContext(ctx).Model(&entity.TblUser{}).Where("ip_address = ?", ipAddress).Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+func (db *TblUser) GetUsersByIp(ctx context.Context, ipAddress string) ([]*entity.TblUser, error) {
+	var users []*entity.TblUser
+	err := db.DB.WithContext(ctx).Where("ip_address = ?", ipAddress).Find(&users).Error
+	if err != nil {
+		return nil, err
+	}
+
+	if len(users) == 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+
+	return users, nil
+}
