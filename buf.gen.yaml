@@ -11,7 +11,3 @@ plugins:
   - name: validate
     out: api/proto/gen
     opt: [paths=source_relative, lang=go]
-  - name: es
-    out: web/gen
-    opt: [target=ts]
-    strategy: directory

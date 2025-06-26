@@ -80,7 +80,7 @@ func (service *UserService) CreateUser(ctx context.Context, req *pb.UsernamePass
 		Coin:      0,
 	}
 
-	id, err := service.tblUser.InsertUser(ctx, *user)
+	id, err := service.tblUser.InsertUser(ctx, user)
 	if err != nil {
 		response.ErrorDbUser(resp)
 		return
@@ -189,7 +189,7 @@ func (service *UserService) UpsertGuestUser(ctx context.Context, req *core.Gener
 		Coin:      0,
 	}
 
-	id, err := service.tblUser.InsertUser(ctx, *user)
+	id, err := service.tblUser.InsertUser(ctx, user)
 	if err != nil {
 		response.ErrorDbUser(resp)
 		return
@@ -197,6 +197,74 @@ func (service *UserService) UpsertGuestUser(ctx context.Context, req *core.Gener
 
 	// Get the created user
 	createdUser, err := service.tblUser.GetUser(ctx, "id", strconv.Itoa(id))
+	if err != nil {
+		response.ErrorDbUser(resp)
+		return
+	}
+
+	response.Success(resp)
+	resp.User = createdUser.Response()
+	return
+}
+
+func (service *UserService) CreateUserFromGuest(ctx context.Context, req *pb.UsernamePasswordRequest, resp *pb.UserResponse) (err error) {
+
+	currentUserId := req.Base.UserId
+	if currentUserId == nil {
+		response.ErrorValidation(resp)
+		resp.Base.Desc = "Current user ID is required"
+		return
+	}
+
+	currentUser, err := service.tblUser.GetUser(ctx, "id", strconv.Itoa(int(*currentUserId)))
+	if err != nil {
+		if errors.Is(err, constant.ErrDatabaseNotFound) {
+			response.ErrorNotFound(resp)
+			return err
+		}
+		response.ErrorDbUser(resp)
+		return err
+	}
+
+	if currentUser.UserType != usertype.Guest {
+		response.ErrorValidation(resp)
+		resp.Base.Desc = "Current user is not a guest"
+		return
+	}
+
+	exists, err := service.tblUser.CheckUserExists(ctx, "username", req.Username)
+	if err != nil {
+		response.ErrorDbUser(resp)
+		return
+	}
+	if exists {
+		response.ErrorNotAllowed(resp)
+		return
+	}
+
+	// Hash password
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		response.ErrorInternal(resp)
+		return
+	}
+
+	// Create user
+	user := &entity.TblUser{
+		Username:  req.Username,
+		Password:  string(hashedPassword),
+		UserType:  usertype.Normal,
+		IpAddress: req.Base.IpAddress,
+	}
+
+	err = service.tblUser.UpdateUserByUserId(ctx, int(*currentUserId), user)
+	if err != nil {
+		response.ErrorDbUser(resp)
+		return
+	}
+
+	// Get the created user
+	createdUser, err := service.tblUser.GetUser(ctx, "id", strconv.Itoa(int(*currentUserId)))
 	if err != nil {
 		response.ErrorDbUser(resp)
 		return

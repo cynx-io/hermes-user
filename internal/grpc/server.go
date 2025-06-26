@@ -49,6 +49,10 @@ func (s *Server) CreateUser(ctx context.Context, req *pb.UsernamePasswordRequest
 	return grpccore.HandleGrpc(ctx, req, resp, s.userService.CreateUser)
 }
 
+func (s *Server) CreateUserFromGuest(ctx context.Context, req *pb.UsernamePasswordRequest) (resp *pb.UserResponse, err error) {
+	return grpccore.HandleGrpc(ctx, req, resp, s.userService.CreateUserFromGuest)
+}
+
 func (s *Server) PaginateUsers(ctx context.Context, req *pb.PaginateRequest) (resp *pb.PaginateUsersResponse, err error) {
 	return grpccore.HandleGrpc(ctx, req, resp, s.userService.PaginateUsers)
 }

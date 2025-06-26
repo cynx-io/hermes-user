@@ -20,13 +20,22 @@ func NewTblUser(DB *gorm.DB) *TblUser {
 	}
 }
 
-func (db *TblUser) InsertUser(ctx context.Context, user entity.TblUser) (int, error) {
+func (db *TblUser) InsertUser(ctx context.Context, user *entity.TblUser) (int, error) {
 	err := db.DB.WithContext(ctx).Create(&user).Error
 	if err != nil {
 		return 0, err
 	}
 
 	return user.Id, nil
+}
+
+func (db *TblUser) UpdateUserByUserId(ctx context.Context, userId int, user *entity.TblUser) error {
+	err := db.DB.WithContext(ctx).Where("id = ?", userId).Updates(user).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (db *TblUser) CheckUserExists(ctx context.Context, key string, value string) (bool, error) {

@@ -19,6 +19,7 @@ service HermesUserService {
 
   // Create new user
   rpc CreateUser(UsernamePasswordRequest) returns (UserResponse) {}
+  rpc CreateUserFromGuest(UsernamePasswordRequest) returns (UserResponse) {}
 
   // Create new user
   rpc UpsertGuestUser(core.GenericRequest) returns (UserResponse) {}
