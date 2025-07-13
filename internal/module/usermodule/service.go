@@ -147,37 +147,37 @@ func (service *UserService) ValidatePassword(ctx context.Context, req *pb.Userna
 
 func (service *UserService) UpsertGuestUser(ctx context.Context, req *core.GenericRequest, resp *pb.UserResponse) (err error) {
 
-	if req.Base.IpAddress != "" {
-		ipCount, err := service.tblUser.CountIp(ctx, req.Base.GetIpAddress())
-		if err != nil {
-			response.ErrorDbUser(resp)
-			return err
-		}
-
-		if ipCount >= 5 {
-			// Get random
-			user, err := service.tblUser.GetUsersByIp(ctx, req.Base.GetIpAddress())
-			if err != nil {
-				if errors.Is(err, constant.ErrDatabaseNotFound) {
-					response.ErrorNotFound(resp)
-					return err
-				}
-				response.ErrorDbUser(resp)
-				return err
-			}
-
-			if len(user) == 0 {
-				response.ErrorNotFound(resp)
-				return err
-			}
-
-			// Return random user
-			randomIndex := random.RandomIntInRange(0, len(user)-1)
-			response.Success(resp)
-			resp.User = user[randomIndex].Response()
-			return err
-		}
-	}
+	//if req.Base.IpAddress != "" {
+	//	ipCount, err := service.tblUser.CountIp(ctx, req.Base.GetIpAddress())
+	//	if err != nil {
+	//		response.ErrorDbUser(resp)
+	//		return err
+	//	}
+	//
+	//	if ipCount >= 5 {
+	//		// Get random
+	//		user, err := service.tblUser.GetUsersByIp(ctx, req.Base.GetIpAddress())
+	//		if err != nil {
+	//			if errors.Is(err, constant.ErrDatabaseNotFound) {
+	//				response.ErrorNotFound(resp)
+	//				return err
+	//			}
+	//			response.ErrorDbUser(resp)
+	//			return err
+	//		}
+	//
+	//		if len(user) == 0 {
+	//			response.ErrorNotFound(resp)
+	//			return err
+	//		}
+	//
+	//		// Return random user
+	//		randomIndex := random.RandomIntInRange(0, len(user)-1)
+	//		response.Success(resp)
+	//		resp.User = user[randomIndex].Response()
+	//		return err
+	//	}
+	//}
 
 	// Create user
 	animal := random.RandomAnimalName("")
