@@ -1,16 +1,15 @@
 package app
 
 import (
-	"github.com/cynxees/hermes-user/internal/module/usermodule"
+	"github.com/cynx-io/hermes-user/internal/usecase/userusecase"
 )
 
-type Services struct {
-	UserService *usermodule.UserService
+type UseCases struct {
+	UserUseCase *userusecase.UseCase
 }
 
-func NewServices(repos *Repos, dependencies *Dependencies) *Services {
-
-	return &Services{
-		UserService: usermodule.NewUserService(repos.TblUser),
+func NewUseCases(repos *Repos, dependencies *Dependencies) *UseCases {
+	return &UseCases{
+		UserUseCase: userusecase.NewUseCase(repos.UserRepo),
 	}
 }

@@ -8,10 +8,12 @@ option go_package = "hermes/api/proto";
 
 message User {
   int32 id = 1;
-  string username = 2;
-  int32 coin = 3;
-  int32 user_type = 4;
-  string user_type_string = 5;
-  google.protobuf.Timestamp created_date = 10;
-  google.protobuf.Timestamp updated_date = 11;
+  string auth0_id = 2;
+  string email = 3;
+  string name = 4;
+  string subscription_tier = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  google.protobuf.Timestamp last_login_at = 8;
+  bool is_active = 9;
 }

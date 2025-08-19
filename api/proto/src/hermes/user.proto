@@ -11,38 +11,21 @@ import "hermes/object.proto";
 
 // User service definition
 service HermesUserService {
-  // Check if a username exists
-  rpc CheckUsername(UsernameRequest) returns (CheckUsernameResponse) {}
+  // Upsert user (create or update)
+  rpc UpsertUser(UpsertUserRequest) returns (UserResponse) {}
+}
 
-  // Get user by username
-  rpc GetUser(UsernameRequest) returns (UserResponse) {}
-
-  // Create new user
-  rpc CreateUser(UsernamePasswordRequest) returns (UserResponse) {}
-  rpc CreateUserFromGuest(UsernamePasswordRequest) returns (UserResponse) {}
-
-  // Create new user
-  rpc UpsertGuestUser(core.GenericRequest) returns (UserResponse) {}
-
-  // Paginate users
-  rpc PaginateUsers(PaginateRequest) returns (PaginateUsersResponse) {}
-
-  rpc ValidatePassword(UsernamePasswordRequest) returns (UserResponse) {}
+message UpsertUserRequest {
+  core.BaseRequest base = 1;
+  string auth0_id = 2;
+  string email = 3;
+  optional string name = 4;
+  optional string subscription_tier = 5;
+  optional google.protobuf.Timestamp last_login_at = 6;
+  optional bool is_active = 7;
 }
 
 message UserResponse {
   core.BaseResponse base = 1;
   User user = 2;
-}
-
-// Response message for checking username
-message CheckUsernameResponse {
-  core.BaseResponse base = 1;
-  bool exists = 2;
-}
-
-// Response message for paginating users
-message PaginateUsersResponse {
-  core.BaseResponse base = 1;
-  repeated User users = 2;
 }

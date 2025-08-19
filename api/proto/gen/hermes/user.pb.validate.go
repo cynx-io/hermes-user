@@ -35,6 +35,186 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on UpsertUserRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *UpsertUserRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UpsertUserRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UpsertUserRequestMultiError, or nil if none found.
+func (m *UpsertUserRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UpsertUserRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetBase()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpsertUserRequestValidationError{
+					field:  "Base",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpsertUserRequestValidationError{
+					field:  "Base",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetBase()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpsertUserRequestValidationError{
+				field:  "Base",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Auth0Id
+
+	// no validation rules for Email
+
+	if m.Name != nil {
+		// no validation rules for Name
+	}
+
+	if m.SubscriptionTier != nil {
+		// no validation rules for SubscriptionTier
+	}
+
+	if m.LastLoginAt != nil {
+
+		if all {
+			switch v := interface{}(m.GetLastLoginAt()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, UpsertUserRequestValidationError{
+						field:  "LastLoginAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, UpsertUserRequestValidationError{
+						field:  "LastLoginAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetLastLoginAt()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return UpsertUserRequestValidationError{
+					field:  "LastLoginAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.IsActive != nil {
+		// no validation rules for IsActive
+	}
+
+	if len(errors) > 0 {
+		return UpsertUserRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// UpsertUserRequestMultiError is an error wrapping multiple validation errors
+// returned by UpsertUserRequest.ValidateAll() if the designated constraints
+// aren't met.
+type UpsertUserRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UpsertUserRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UpsertUserRequestMultiError) AllErrors() []error { return m }
+
+// UpsertUserRequestValidationError is the validation error returned by
+// UpsertUserRequest.Validate if the designated constraints aren't met.
+type UpsertUserRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpsertUserRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpsertUserRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpsertUserRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpsertUserRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpsertUserRequestValidationError) ErrorName() string {
+	return "UpsertUserRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpsertUserRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpsertUserRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpsertUserRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpsertUserRequestValidationError{}
+
 // Validate checks the field values on UserResponse with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -191,301 +371,3 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = UserResponseValidationError{}
-
-// Validate checks the field values on CheckUsernameResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *CheckUsernameResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on CheckUsernameResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// CheckUsernameResponseMultiError, or nil if none found.
-func (m *CheckUsernameResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *CheckUsernameResponse) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if all {
-		switch v := interface{}(m.GetBase()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, CheckUsernameResponseValidationError{
-					field:  "Base",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, CheckUsernameResponseValidationError{
-					field:  "Base",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetBase()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return CheckUsernameResponseValidationError{
-				field:  "Base",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	// no validation rules for Exists
-
-	if len(errors) > 0 {
-		return CheckUsernameResponseMultiError(errors)
-	}
-
-	return nil
-}
-
-// CheckUsernameResponseMultiError is an error wrapping multiple validation
-// errors returned by CheckUsernameResponse.ValidateAll() if the designated
-// constraints aren't met.
-type CheckUsernameResponseMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m CheckUsernameResponseMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m CheckUsernameResponseMultiError) AllErrors() []error { return m }
-
-// CheckUsernameResponseValidationError is the validation error returned by
-// CheckUsernameResponse.Validate if the designated constraints aren't met.
-type CheckUsernameResponseValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e CheckUsernameResponseValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e CheckUsernameResponseValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e CheckUsernameResponseValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e CheckUsernameResponseValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e CheckUsernameResponseValidationError) ErrorName() string {
-	return "CheckUsernameResponseValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e CheckUsernameResponseValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sCheckUsernameResponse.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = CheckUsernameResponseValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = CheckUsernameResponseValidationError{}
-
-// Validate checks the field values on PaginateUsersResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *PaginateUsersResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on PaginateUsersResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// PaginateUsersResponseMultiError, or nil if none found.
-func (m *PaginateUsersResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *PaginateUsersResponse) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if all {
-		switch v := interface{}(m.GetBase()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, PaginateUsersResponseValidationError{
-					field:  "Base",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, PaginateUsersResponseValidationError{
-					field:  "Base",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetBase()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return PaginateUsersResponseValidationError{
-				field:  "Base",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	for idx, item := range m.GetUsers() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, PaginateUsersResponseValidationError{
-						field:  fmt.Sprintf("Users[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, PaginateUsersResponseValidationError{
-						field:  fmt.Sprintf("Users[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return PaginateUsersResponseValidationError{
-					field:  fmt.Sprintf("Users[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
-	if len(errors) > 0 {
-		return PaginateUsersResponseMultiError(errors)
-	}
-
-	return nil
-}
-
-// PaginateUsersResponseMultiError is an error wrapping multiple validation
-// errors returned by PaginateUsersResponse.ValidateAll() if the designated
-// constraints aren't met.
-type PaginateUsersResponseMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m PaginateUsersResponseMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m PaginateUsersResponseMultiError) AllErrors() []error { return m }
-
-// PaginateUsersResponseValidationError is the validation error returned by
-// PaginateUsersResponse.Validate if the designated constraints aren't met.
-type PaginateUsersResponseValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e PaginateUsersResponseValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e PaginateUsersResponseValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e PaginateUsersResponseValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e PaginateUsersResponseValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e PaginateUsersResponseValidationError) ErrorName() string {
-	return "PaginateUsersResponseValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e PaginateUsersResponseValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sPaginateUsersResponse.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = PaginateUsersResponseValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = PaginateUsersResponseValidationError{}

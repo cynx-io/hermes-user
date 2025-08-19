@@ -2,8 +2,8 @@ package app
 
 import (
 	"context"
-	"github.com/cynxees/cynx-core/src/logger"
-	"github.com/cynxees/hermes-user/internal/dependencies"
+	"github.com/cynx-io/cynx-core/src/logger"
+	"github.com/cynx-io/hermes-user/internal/dependencies"
 )
 
 type Dependencies struct {

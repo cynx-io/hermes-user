@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/cynxees/cynx-core/src/configuration"
+	"github.com/cynx-io/cynx-core/src/configuration"
 )
 
 var Config *AppConfig
@@ -19,6 +19,11 @@ type AppConfig struct {
 		Url   string `json:"url"`
 		Level string `json:"level"`
 	} `json:"elastic"`
+	Auth0 struct {
+		Domain       string `mapstructure:"domain"`
+		ClientID     string `mapstructure:"clientId"`
+		ClientSecret string `mapstructure:"clientSecret"`
+	}
 }
 
 type DatabaseConfig struct {

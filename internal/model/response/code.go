@@ -1,6 +1,6 @@
 package response
 
-import "github.com/cynxees/cynx-core/src/response"
+import "github.com/cynx-io/cynx-core/src/response"
 
 const (
 	// Expected Error

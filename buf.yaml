@@ -1,9 +1,9 @@
 version: v1beta1
-name: github.com/cynxees/hermes-user
+name: github.com/cynx-io/hermes-user
 build:
   roots:
     - api/proto/src
 deps:
-  - buf.build/cynx/cynx-core
-#  - buf.build/bufbuild/protovalidate
-#  - buf.build/googleapis/googleapis
+  - buf.build/bufbuild/protovalidate
+  - buf.build/googleapis/googleapis
+  - buf.build/cynx/cynx-core:v0.0.32

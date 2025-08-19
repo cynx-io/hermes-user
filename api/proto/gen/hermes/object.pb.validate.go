@@ -58,20 +58,20 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for Username
+	// no validation rules for Auth0Id
 
-	// no validation rules for Coin
+	// no validation rules for Email
 
-	// no validation rules for UserType
+	// no validation rules for Name
 
-	// no validation rules for UserTypeString
+	// no validation rules for SubscriptionTier
 
 	if all {
-		switch v := interface{}(m.GetCreatedDate()).(type) {
+		switch v := interface{}(m.GetCreatedAt()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, UserValidationError{
-					field:  "CreatedDate",
+					field:  "CreatedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -79,16 +79,16 @@ func (m *User) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, UserValidationError{
-					field:  "CreatedDate",
+					field:  "CreatedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetCreatedDate()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return UserValidationError{
-				field:  "CreatedDate",
+				field:  "CreatedAt",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -96,11 +96,11 @@ func (m *User) validate(all bool) error {
 	}
 
 	if all {
-		switch v := interface{}(m.GetUpdatedDate()).(type) {
+		switch v := interface{}(m.GetUpdatedAt()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, UserValidationError{
-					field:  "UpdatedDate",
+					field:  "UpdatedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -108,21 +108,52 @@ func (m *User) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, UserValidationError{
-					field:  "UpdatedDate",
+					field:  "UpdatedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetUpdatedDate()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetUpdatedAt()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return UserValidationError{
-				field:  "UpdatedDate",
+				field:  "UpdatedAt",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
 		}
 	}
+
+	if all {
+		switch v := interface{}(m.GetLastLoginAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UserValidationError{
+					field:  "LastLoginAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UserValidationError{
+					field:  "LastLoginAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLastLoginAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UserValidationError{
+				field:  "LastLoginAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for IsActive
 
 	if len(errors) > 0 {
 		return UserMultiError(errors)

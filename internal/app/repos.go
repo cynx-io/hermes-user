@@ -1,16 +1,15 @@
 package app
 
 import (
-	"github.com/cynxees/hermes-user/internal/repository/database"
+	"github.com/cynx-io/hermes-user/internal/repository/database"
 )
 
 type Repos struct {
-	TblUser *database.TblUser
+	UserRepo *database.UserRepo
 }
 
 func NewRepos(dependencies *Dependencies) *Repos {
-
 	return &Repos{
-		TblUser: database.NewTblUser(dependencies.DatabaseClient.Db),
+		UserRepo: database.NewUserRepo(dependencies.DatabaseClient.Db),
 	}
 }

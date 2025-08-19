@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"github.com/cynxees/cynx-core/src/logger"
-	"github.com/cynxees/hermes-user/internal/app"
-	"github.com/cynxees/hermes-user/internal/dependencies/config"
+	"github.com/cynx-io/cynx-core/src/logger"
+	"github.com/cynx-io/hermes-user/internal/app"
+	"github.com/cynx-io/hermes-user/internal/dependencies/config"
 	"github.com/sirupsen/logrus"
 )
 

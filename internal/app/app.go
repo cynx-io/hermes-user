@@ -2,14 +2,14 @@ package app
 
 import (
 	"context"
-	"github.com/cynxees/cynx-core/src/logger"
-	"github.com/cynxees/hermes-user/internal/dependencies/config"
+	"github.com/cynx-io/cynx-core/src/logger"
+	"github.com/cynx-io/hermes-user/internal/dependencies/config"
 )
 
 type App struct {
 	Dependencies *Dependencies
 	Repos        *Repos
-	Services     *Services
+	UseCases     *UseCases
 }
 
 func NewApp(ctx context.Context) (*App, error) {
@@ -28,13 +28,13 @@ func NewApp(ctx context.Context) (*App, error) {
 	logger.Info(ctx, "Initializing Repositories")
 	repos := NewRepos(dependencies)
 
-	logger.Info(ctx, "Initializing Services")
-	services := NewServices(repos, dependencies)
+	logger.Info(ctx, "Initializing Use Cases")
+	useCases := NewUseCases(repos, dependencies)
 
 	logger.Info(ctx, "App initialized")
 	return &App{
 		Dependencies: dependencies,
 		Repos:        repos,
-		Services:     services,
+		UseCases:     useCases,
 	}, nil
 }

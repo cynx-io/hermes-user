@@ -1,7 +1,7 @@
 package response
 
 import (
-	"github.com/cynxees/cynx-core/src/response"
+	"github.com/cynx-io/cynx-core/src/response"
 )
 
 func setResponse[Resp response.Generic](resp Resp, code response.Code) {

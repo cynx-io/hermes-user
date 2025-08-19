@@ -3,9 +3,9 @@ package dependencies
 import (
 	"context"
 	"fmt"
-	"github.com/cynxees/cynx-core/src/logger"
-	"github.com/cynxees/hermes-user/internal/dependencies/config"
-	"github.com/cynxees/hermes-user/internal/model/entity"
+	"github.com/cynx-io/cynx-core/src/logger"
+	"github.com/cynx-io/hermes-user/internal/dependencies/config"
+	"github.com/cynx-io/hermes-user/internal/model/entity"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
